@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent, JSONContent } from "@tiptap/react";
 import { defaultEditorProps } from "./props";
 import { defaultExtensions } from "./extensions";

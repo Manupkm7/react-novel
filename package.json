@@ -1,6 +1,6 @@
 {
-  "name": "ff-novel",
-  "private": true,
+  "name": "react-ff-novel",
+  "private": false,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
