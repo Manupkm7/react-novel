@@ -1,8 +1,9 @@
+/**
+ * @type {import('postcss').ProcessOptions}
+ */
 module.exports = {
   plugins: {
-    "postcss-import": {},
-    "tailwindcss/nesting": {},
-    tailwindcss: {},
     autoprefixer: {},
+    tailwindcss: {},
   },
 };

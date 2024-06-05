@@ -204,7 +204,7 @@ export default function Editor({
   return (
     <NovelContext.Provider
       value={{
-        completionApi,
+        completionApi: completionApi,
       }}
     >
       <div

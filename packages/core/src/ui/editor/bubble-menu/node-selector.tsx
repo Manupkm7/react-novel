@@ -12,20 +12,20 @@ import {
   CheckSquare,
 } from "lucide-react";
 import * as Popover from "@radix-ui/react-popover";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { BubbleMenuItem } from ".";
 
-interface NodeSelectorProps {
+type NodeSelectorProps = {
   editor: Editor;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
+};
 
-export const NodeSelector: FC<NodeSelectorProps> = ({
+export const NodeSelector = ({
   editor,
   isOpen,
   setIsOpen,
-}) => {
+}: NodeSelectorProps) => {
   const items: BubbleMenuItem[] = [
     {
       name: "Text",

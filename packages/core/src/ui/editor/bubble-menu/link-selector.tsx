@@ -1,7 +1,7 @@
 import { cn, getUrlFromString } from "@/lib/utils";
 import { Editor } from "@tiptap/core";
 import { Check, Trash } from "lucide-react";
-import React, { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface LinkSelectorProps {
   editor: Editor;
@@ -9,11 +9,11 @@ interface LinkSelectorProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const LinkSelector: FC<LinkSelectorProps> = ({
+export const LinkSelector = ({
   editor,
   isOpen,
   setIsOpen,
-}) => {
+}: LinkSelectorProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Autofocus on input by default

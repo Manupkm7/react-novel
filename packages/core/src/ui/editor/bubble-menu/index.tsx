@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { BubbleMenu, BubbleMenuProps, isNodeSelection } from "@tiptap/react";
-import React,{ FC, useState } from "react";
 import {
   BoldIcon,
   ItalicIcon,
@@ -7,10 +7,10 @@ import {
   StrikethroughIcon,
   CodeIcon,
 } from "lucide-react";
-import { NodeSelector } from "./node-selector";
 import { ColorSelector } from "./color-selector";
 import { LinkSelector } from "./link-selector";
 import { cn } from "@/lib/utils";
+import { NodeSelector } from "./node-selector";
 
 export interface BubbleMenuItem {
   name: string;
@@ -21,42 +21,50 @@ export interface BubbleMenuItem {
 
 type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
 
-export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
+export const EditorBubbleMenu = ({
+  editor,
+  className,
+  pluginKey,
+  updateDelay,
+}: EditorBubbleMenuProps) => {
   const items: BubbleMenuItem[] = [
     {
       name: "bold",
-      isActive: () => props.editor.isActive("bold"),
-      command: () => props.editor.chain().focus().toggleBold().run(),
+      isActive: () => editor?.isActive("bold") ?? false,
+      command: () => editor?.chain().focus().toggleBold().run(),
       icon: BoldIcon,
     },
     {
       name: "italic",
-      isActive: () => props.editor.isActive("italic"),
-      command: () => props.editor.chain().focus().toggleItalic().run(),
+      isActive: () => editor?.isActive("italic") ?? false,
+      command: () => editor?.chain().focus().toggleItalic().run(),
       icon: ItalicIcon,
     },
     {
       name: "underline",
-      isActive: () => props.editor.isActive("underline"),
-      command: () => props.editor.chain().focus().toggleUnderline().run(),
+      isActive: () => editor?.isActive("underline") ?? false,
+      command: () => editor?.chain().focus().toggleUnderline().run(),
       icon: UnderlineIcon,
     },
     {
       name: "strike",
-      isActive: () => props.editor.isActive("strike"),
-      command: () => props.editor.chain().focus().toggleStrike().run(),
+      isActive: () => editor?.isActive("strike") ?? false,
+      command: () => editor?.chain().focus().toggleStrike().run(),
       icon: StrikethroughIcon,
     },
     {
       name: "code",
-      isActive: () => props.editor.isActive("code"),
-      command: () => props.editor.chain().focus().toggleCode().run(),
+      isActive: () => editor?.isActive("code") ?? false,
+      command: () => editor?.chain().focus().toggleCode().run(),
       icon: CodeIcon,
     },
   ];
 
   const bubbleMenuProps: EditorBubbleMenuProps = {
-    ...props,
+    editor,
+    className,
+    pluginKey,
+    updateDelay,
     shouldShow: ({ state, editor }) => {
       const { selection } = state;
       const { empty } = selection;
@@ -83,55 +91,58 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
   const [isLinkSelectorOpen, setIsLinkSelectorOpen] = useState(false);
+  if (!editor) return null;
 
   return (
-    <BubbleMenu
-      {...bubbleMenuProps}
-      className="novel-flex novel-w-fit novel-divide-x novel-divide-stone-200 novel-rounded novel-border novel-border-stone-200 novel-bg-white novel-shadow-xl"
-    >
-      <NodeSelector
-        editor={props.editor}
-        isOpen={isNodeSelectorOpen}
-        setIsOpen={() => {
-          setIsNodeSelectorOpen(!isNodeSelectorOpen);
-          setIsColorSelectorOpen(false);
-          setIsLinkSelectorOpen(false);
-        }}
-      />
-      <LinkSelector
-        editor={props.editor}
-        isOpen={isLinkSelectorOpen}
-        setIsOpen={() => {
-          setIsLinkSelectorOpen(!isLinkSelectorOpen);
-          setIsColorSelectorOpen(false);
-          setIsNodeSelectorOpen(false);
-        }}
-      />
-      <div className="novel-flex">
-        {items.map((item, index) => (
-          <button
-            key={index}
-            onClick={item.command}
-            className="novel-p-2 novel-text-stone-600 hover:novel-bg-stone-100 active:novel-bg-stone-200"
-            type="button"
-          >
-            <item.icon
-              className={cn("novel-h-4 novel-w-4", {
-                "novel-text-blue-500": item.isActive(),
-              })}
-            />
-          </button>
-        ))}
-      </div>
-      <ColorSelector
-        editor={props.editor}
-        isOpen={isColorSelectorOpen}
-        setIsOpen={() => {
-          setIsColorSelectorOpen(!isColorSelectorOpen);
-          setIsNodeSelectorOpen(false);
-          setIsLinkSelectorOpen(false);
-        }}
-      />
-    </BubbleMenu>
+    <>
+      <BubbleMenu
+        {...bubbleMenuProps}
+        className="novel-flex novel-w-fit novel-divide-x novel-divide-stone-200 novel-rounded novel-border novel-border-stone-200 novel-bg-white novel-shadow-xl"
+      >
+        <NodeSelector
+          editor={editor}
+          isOpen={isNodeSelectorOpen}
+          setIsOpen={() => {
+            setIsNodeSelectorOpen(!isNodeSelectorOpen);
+            setIsColorSelectorOpen(false);
+            setIsLinkSelectorOpen(false);
+          }}
+        />
+        <LinkSelector
+          editor={editor}
+          isOpen={isLinkSelectorOpen}
+          setIsOpen={() => {
+            setIsLinkSelectorOpen(!isLinkSelectorOpen);
+            setIsColorSelectorOpen(false);
+            setIsNodeSelectorOpen(false);
+          }}
+        />
+        <div className="novel-flex">
+          {items.map((item, index) => (
+            <button
+              key={index}
+              onClick={item.command}
+              className="novel-p-2 novel-text-stone-600 hover:novel-bg-stone-100 active:novel-bg-stone-200"
+              type="button"
+            >
+              <item.icon
+                className={cn("novel-h-4 novel-w-4", {
+                  "novel-text-blue-500": item.isActive(),
+                })}
+              />
+            </button>
+          ))}
+        </div>
+        <ColorSelector
+          editor={editor}
+          isOpen={isColorSelectorOpen}
+          setIsOpen={() => {
+            setIsColorSelectorOpen(!isColorSelectorOpen);
+            setIsNodeSelectorOpen(false);
+            setIsLinkSelectorOpen(false);
+          }}
+        />
+      </BubbleMenu>
+    </>
   );
 };
