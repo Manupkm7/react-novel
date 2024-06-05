@@ -1,5 +1,5 @@
 import { BubbleMenu, BubbleMenuProps, isNodeSelection } from "@tiptap/react";
-import { FC, useState } from "react";
+import React,{ FC, useState } from "react";
 import {
   BoldIcon,
   ItalicIcon,

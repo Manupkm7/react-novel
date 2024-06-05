@@ -12,7 +12,7 @@ import {
   CheckSquare,
 } from "lucide-react";
 import * as Popover from "@radix-ui/react-popover";
-import { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { BubbleMenuItem } from ".";
 
 interface NodeSelectorProps {
