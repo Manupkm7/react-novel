@@ -13,6 +13,7 @@ export default function Editor() {
       </div>
       <EditorRoot>
         <NovelEditor
+          initialContent={{ type: "doc", content: [] }}
           onUpdate={() => {
             setSaveStatus("Saving...");
             // Simulate a delay in saving.
